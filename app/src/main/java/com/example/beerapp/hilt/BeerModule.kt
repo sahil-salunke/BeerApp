@@ -1,6 +1,7 @@
 package com.example.beerapp.hilt
 
 import android.content.Context
+import androidx.paging.ExperimentalPagingApi
 import com.example.beerapp.data.remote.ApiService
 import com.example.beerapp.data.repository.BeerListRepositoryImpl
 import com.example.beerapp.domain.repository.BeerListRepository
@@ -29,6 +30,7 @@ object BeerModule {
             .create(ApiService::class.java)
     }
 
+    @OptIn(ExperimentalPagingApi::class)
     @Provides
     fun provideBeerListRepository(
         apiService: ApiService,

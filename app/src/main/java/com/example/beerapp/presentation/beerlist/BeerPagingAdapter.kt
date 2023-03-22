@@ -8,32 +8,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.beerapp.data.model.BeerDTO
 import com.example.beerapp.databinding.BeerListItemBinding
 
-class BeerPagingAdapter :
-    PagingDataAdapter<BeerDTO, BeerPagingAdapter.MyViewHolder>(COMPARATOR) {
+class BeerPagingAdapter : PagingDataAdapter<BeerDTO, BeerPagingAdapter.MyViewHolder>(
+    COMPARATOR
+) {
 
-//    class QuoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val quote = itemView.findViewById<TextView>(R.id.beer_name)
-//    }
+    private var listener: ((BeerDTO) -> Unit)? = null
 
     class MyViewHolder(val viewHolder: BeerListItemBinding) :
         RecyclerView.ViewHolder(viewHolder.root)
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.viewHolder.beer = getItem(position)
-
-//        holder.viewHolder.beerName.text = getItem(position)?.name
-
-//        holder.viewHolder.root.setOnClickListener {
-//            listener?.let {
-//                it(this.list[position])
-//            }
-//        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding =
             BeerListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
+    }
+
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.viewHolder.beer = getItem(position)
+
+        holder.viewHolder.root.setOnClickListener {
+            listener?.let {
+                getItem(position)?.let { it1 -> it(it1) }
+            }
+        }
+    }
+
+    fun itemClickListener(l: (BeerDTO) -> Unit) {
+        listener = l
     }
 
     companion object {

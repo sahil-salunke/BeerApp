@@ -9,13 +9,13 @@ import com.example.beerapp.data.model.RemoteKey
 @Dao
 interface RemoteKeyDAO {
 
+    @Query("SELECT * FROM RemoteKey WHERE id =:id")
+    suspend fun getRemoteKeys(id: Long): RemoteKey
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(remoteKey: RemoteKey)
+    suspend fun addAllRemoteKeys(remoteKeys: List<RemoteKey>)
 
     @Query("DELETE FROM RemoteKey")
-    suspend fun clearAll()
-
-    @Query("SELECT * FROM RemoteKey WHERE id==:id")
-    suspend fun getAllRemoteKeys(id: Long): RemoteKey
+    suspend fun deleteAllRemoteKeys()
 
 }

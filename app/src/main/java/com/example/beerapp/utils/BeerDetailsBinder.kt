@@ -1,5 +1,6 @@
 package com.example.beerapp.utils
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -30,4 +31,11 @@ fun setValues(textView: TextView, beer: BeerDTO) {
 
     textView.text =
         textView.context.getString(R.string.txt_detail_info, maltIngredients, hops, foodPairings)
+}
+
+@BindingAdapter("visibility")
+fun visibility(view: View, visibility: Boolean?) {
+    visibility?.let {
+        view.visibility = if (it) View.VISIBLE else View.GONE
+    }
 }

@@ -3,7 +3,7 @@
 
     <string name="txt_beer_list">Beer List</string>
     <string name="txt_details">Beer Details</string>
-    <string name="txt_no_data">No data available</string>
+    <string name="txt_no_data">No data found, Try to reload</string>
     <string name="txt_reload">Reload</string>
     <string name="txt_error">Something went wrong, Try to reload the data</string>
 

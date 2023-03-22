@@ -5,7 +5,7 @@ import com.example.beerapp.data.model.BeerDTO
 
 data class BeerListState(
     val isLoading: Boolean = false,
-    val data: PagingData<BeerDTO>? = null,
+    val data: PagingData<BeerDTO>,
     val selected: BeerDTO? = null,
     val error: String = ""
 )

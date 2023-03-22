@@ -10,6 +10,6 @@ interface ApiService {
     suspend fun getAllBears(
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int
-    ): List<BeerDTO>?
+    ): List<BeerDTO>
 
 }
