@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.Fragments.DetailsFragment">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.beerapp.presentation.beerlist.BeerListViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_beer"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:urlToImage="@{viewModel.selectedBeer.image_url}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_beerName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:text="@{viewModel.selectedBeer.name}"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tv_year"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_beer"
+                app:layout_constraintTop_toTopOf="@+id/iv_beer" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="@{viewModel.selectedBeer.first_brewed}"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tv_abv"
+                app:layout_constraintStart_toStartOf="@+id/tv_beerName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_abv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@{viewModel.selectedBeer.abv.toString()}"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_beer"
+                app:layout_constraintStart_toStartOf="@+id/tv_year" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_descriptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="@string/txt_description"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="@+id/iv_beer"
+                app:layout_constraintTop_toBottomOf="@+id/iv_beer" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_Description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{viewModel.selectedBeer.description}"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_descriptionTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tv_descriptionTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_informationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/txt_information"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_Description"
+                app:layout_constraintTop_toBottomOf="@+id/tv_Description" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/info_txt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="16sp"
+                app:details="@{viewModel.selectedBeer}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_informationTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tv_informationTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

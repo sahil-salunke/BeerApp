@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">BeerApp</string>
+
+    <string name="txt_beer_list">Beer List</string>
+    <string name="txt_details">Beer Details</string>
+    <string name="txt_no_data">No data available</string>
+    <string name="txt_reload">Reload</string>
+    <string name="txt_error">Something went wrong, Try to reload the data</string>
+
+    <string name="abv_txt">ABV - %1$s</string>
+
+    <string name="txt_description">Description</string>
+    <string name="txt_information">Information</string>
+    <string name="txt_beer">Beer</string>
+    <string name="txt_detail_info"><b>Malts: </b>%1$s \n\n<b>Hops:</b> %2$s \n\n<b>Food Parings:</b> %3$s</string>
+
+
+</resources>
