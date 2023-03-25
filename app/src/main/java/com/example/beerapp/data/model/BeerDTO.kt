@@ -2,6 +2,7 @@ package com.example.beerapp.data.model
 
 import android.os.Parcelable
 import androidx.room.*
+import com.example.beerapp.domain.model.BeerFeed
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -9,30 +10,30 @@ import kotlinx.parcelize.Parcelize
 data class BeerDTO(
     @PrimaryKey
     val id: Long,
-    val name: String?,
-    val tagline: String?,
-    val first_brewed: String?,
-    val description: String?,
-    val image_url: String?,
-    val abv: Double?,
-    val ibu: Double?,
-    val target_fg: Double?,
-    val target_og: Double?,
-    val ebc: Double?,
-    val srm: Double?,
-    val ph: Double?,
-    val attenuation_level: Double?,
+    val name: String? = null,
+    val tagline: String? = null,
+    val first_brewed: String? = null,
+    val description: String? = null,
+    val image_url: String? = null,
+    val abv: Double? = null,
+    val ibu: Double? = null,
+    val target_fg: Double? = null,
+    val target_og: Double? = null,
+    val ebc: Double? = null,
+    val srm: Double? = null,
+    val ph: Double? = null,
+    val attenuation_level: Double? = null,
     @Embedded(prefix = "volume_")
-    val volume: BoilVolume,
+    val volume: BoilVolume?= null,
     @Embedded(prefix = "boilVolume_")
-    val boil_volume: BoilVolume?,
+    val boil_volume: BoilVolume? = null,
     @Embedded
-    val method: Method?,
+    val method: Method? = null,
     @Embedded
-    val ingredients: Ingredients?,
-    val food_pairing: List<String>?,
-    val brewers_tips: String?,
-    val contributed_by: String?
+    val ingredients: Ingredients? = null,
+    val food_pairing: List<String>? = null,
+    val brewers_tips: String? = null,
+    val contributed_by: String? = null
 ) : Parcelable
 
 @Parcelize
@@ -85,3 +86,16 @@ data class MashTemp(
     val temp: BoilVolume?,
     val duration: Long?
 ) : Parcelable
+
+fun BeerDTO.toDomainBeer(): BeerFeed {
+    return BeerFeed(
+        id = id,
+        name = this.name,
+        imageUrl = this.image_url,
+        abv = this.abv,
+        first_brewed = first_brewed,
+        description = description,
+        ingredients = ingredients,
+        food_pairing = food_pairing
+    )
+}

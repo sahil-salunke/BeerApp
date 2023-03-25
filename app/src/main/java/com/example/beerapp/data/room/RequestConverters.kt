@@ -1,4 +1,4 @@
-package com.example.beerapp.room
+package com.example.beerapp.data.room
 
 import androidx.room.TypeConverter
 import com.example.beerapp.data.model.Hop

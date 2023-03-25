@@ -1,4 +1,4 @@
-package com.example.beerapp.room
+package com.example.beerapp.data.room
 
 import androidx.paging.PagingSource
 import androidx.room.Dao

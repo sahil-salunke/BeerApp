@@ -6,7 +6,6 @@ import com.example.beerapp.data.model.BeerDTO
 import com.example.beerapp.domain.repository.BeerListRepository
 import com.example.beerapp.utils.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException

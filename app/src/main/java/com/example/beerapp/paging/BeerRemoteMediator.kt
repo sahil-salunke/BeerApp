@@ -7,8 +7,8 @@ import androidx.paging.RemoteMediator
 import com.example.beerapp.data.model.BeerDTO
 import com.example.beerapp.data.model.RemoteKey
 import com.example.beerapp.data.remote.ApiService
-import com.example.beerapp.room.BeerDAO
-import com.example.beerapp.room.RemoteKeyDAO
+import com.example.beerapp.data.room.BeerDAO
+import com.example.beerapp.data.room.RemoteKeyDAO
 import com.example.beerapp.utils.Constants.PER_PAGE
 import retrofit2.HttpException
 import java.io.IOException
@@ -49,7 +49,7 @@ class BeerRemoteMediator(
             }
 
             val response = apiService.getAllBears(loadKey, PER_PAGE)
-            val endOfPagination = response.size < PER_PAGE
+            val endOfPagination = response.body()?.size!! < PER_PAGE
 
             if (loadType == LoadType.REFRESH) {
                 beerDAO.deleteBeers()
@@ -64,15 +64,15 @@ class BeerRemoteMediator(
                 remoteKeyDAO.deleteAllRemoteKeys()
             }
 
-            beerDAO.insert(response)
-            val keys = response.map { quote ->
+            beerDAO.insert(response.body()!!)
+            val keys = response.body()?.map { quote ->
                 RemoteKey(
                     id = quote.id,
                     prev = prev,
                     next = next
                 )
             }
-            remoteKeyDAO.addAllRemoteKeys(keys)
+            keys?.let { remoteKeyDAO.addAllRemoteKeys(it) }
             MediatorResult.Success(endOfPagination)
         } catch (e: HttpException) {
             MediatorResult.Error(e)

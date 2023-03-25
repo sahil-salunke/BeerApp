@@ -5,9 +5,9 @@ import androidx.paging.ExperimentalPagingApi
 import com.example.beerapp.data.remote.ApiService
 import com.example.beerapp.data.repository.BeerListRepositoryImpl
 import com.example.beerapp.domain.repository.BeerListRepository
-import com.example.beerapp.room.BeerDAO
-import com.example.beerapp.room.BeerDatabase
-import com.example.beerapp.room.RemoteKeyDAO
+import com.example.beerapp.data.room.BeerDAO
+import com.example.beerapp.data.room.BeerDatabase
+import com.example.beerapp.data.room.RemoteKeyDAO
 import com.example.beerapp.utils.Constants
 import dagger.Module
 import dagger.Provides

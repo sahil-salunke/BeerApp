@@ -23,7 +23,6 @@ class BeerPagingAdapter : PagingDataAdapter<BeerDTO, BeerPagingAdapter.MyViewHol
         return MyViewHolder(binding)
     }
 
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.viewHolder.beer = getItem(position)
 

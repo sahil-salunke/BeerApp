@@ -4,8 +4,8 @@ import androidx.paging.*
 import com.example.beerapp.data.remote.ApiService
 import com.example.beerapp.domain.repository.BeerListRepository
 import com.example.beerapp.paging.BeerRemoteMediator
-import com.example.beerapp.room.BeerDAO
-import com.example.beerapp.room.RemoteKeyDAO
+import com.example.beerapp.data.room.BeerDAO
+import com.example.beerapp.data.room.RemoteKeyDAO
 import com.example.beerapp.utils.Constants.PER_PAGE
 
 @ExperimentalPagingApi

@@ -1,4 +1,4 @@
-package com.example.beerapp.room
+package com.example.beerapp.data.room
 
 import androidx.room.Dao
 import androidx.room.Insert

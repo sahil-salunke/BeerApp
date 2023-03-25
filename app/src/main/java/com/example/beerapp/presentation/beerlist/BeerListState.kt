@@ -2,6 +2,7 @@ package com.example.beerapp.presentation.beerlist
 
 import androidx.paging.PagingData
 import com.example.beerapp.data.model.BeerDTO
+import kotlinx.coroutines.flow.Flow
 
 data class BeerListState(
     val isLoading: Boolean = false,
