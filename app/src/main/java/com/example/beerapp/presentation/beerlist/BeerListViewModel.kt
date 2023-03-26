@@ -8,6 +8,7 @@ import com.example.beerapp.data.model.BeerDTO
 import com.example.beerapp.domain.repository.BeerListRepository
 import com.example.beerapp.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +20,7 @@ class BeerListViewModel @Inject constructor(beerListRepository: BeerListReposito
     val isDataAvailable = ObservableBoolean(false)
     val errorMessage = MutableLiveData<String>()
     val reloadClick = SingleLiveEvent<Void>()
-    val result: LiveData<PagingData<BeerDTO>>
+    val result: Flow<PagingData<BeerDTO>>
         get() = _beerList
 
     // Ask for Beer data

@@ -16,8 +16,8 @@ fun urlToImage(view: ImageView, s: String?) {
     Glide.with(view).setDefaultRequestOptions(options).load(s ?: "").into(view)
 }
 
-@BindingAdapter("app:details")
-fun setValues(textView: TextView, beer: BeerDTO) {
+@BindingAdapter("details")
+fun details(textView: TextView, beer: BeerDTO) {
     val maltIngredients = beer.ingredients?.malt?.joinToString {
         it.name.toString()
     }

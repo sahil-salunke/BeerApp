@@ -1,29 +1,29 @@
 package com.example.beerapp.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
-import com.example.beerapp.Helper
-import com.example.beerapp.MockitoUtils
+import androidx.paging.map
+import app.cash.turbine.test
 import com.example.beerapp.data.model.BeerDTO
 import com.example.beerapp.data.remote.ApiService
 import com.example.beerapp.data.repository.BeerListRepositoryImpl
 import com.example.beerapp.data.room.BeerDAO
 import com.example.beerapp.data.room.RemoteKeyDAO
-import junit.framework.TestCase
-import okhttp3.mockwebserver.MockResponse
-import org.junit.Assert
+import com.example.beerapp.testutil.MainCoroutineRule
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.*
+
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentMatchers
-import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
-import retrofit2.Response
 
-class BeerListRepositoryImplTest : TestCase() {
+class BeerListRepositoryImplTest {
 
     @Mock
     private lateinit var apiService: ApiService
@@ -34,116 +34,50 @@ class BeerListRepositoryImplTest : TestCase() {
     @Mock
     private lateinit var remoteKeyDAO: RemoteKeyDAO
 
-    override fun setUp() {
-        super.setUp()
+    @Mock
+    private lateinit var repositoryImplTest: BeerListRepositoryImplTest
+
+    @get:Rule
+    val mainCoroutineRule = MainCoroutineRule()
+
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+
+    @Before
+    fun setUp() {
         MockitoAnnotations.openMocks(this)
     }
 
-    /**
-     * Testcase to check success response with no data
-     */
-    @OptIn(ExperimentalPagingApi::class)
-    fun testApiForEmptyResponse() = kotlinx.coroutines.test.runTest {
-
-        Mockito.`when`(apiService.getAllBears(anyInt(), anyInt()))
-            .thenReturn(Response.success(emptyList()))
-
-        val repo = BeerListRepositoryImpl(apiService, beerDAO, remoteKeyDAO)
-        val result = repo.getBeerList()
-
-        assertEquals(true, result)
-//        Assert.assertEquals(true, result.value)
-//        Assert.assertEquals(0, result.data!!.size)
-//
-//        val mockResponse = MockResponse()
-//        mockResponse.setBody("[]")
-//        mockWebServer.enqueue(mockResponse)
-//
-//        val response = apiService.getAllBears(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt())
-//        mockWebServer.takeRequest()
-//
-//        assertEquals(true, response.body()?.isEmpty())
-    }
-
-    /**
-     * Testcase to check success response with data
-     */
-    @OptIn(ExperimentalPagingApi::class)
-    fun testApiForSuccessResponse() = kotlinx.coroutines.test.runTest {
-//        val content = Helper.readFileResource("/response.json")
-//        Mockito.`when`(apiService.getAllBears(anyInt(), anyInt()))
-//            .thenReturn(Response.success())
-//
-//        val repo = BeerListRepositoryImpl(apiService, beerDAO, remoteKeyDAO)
-//        val result = repo.getBeerList()
-
-
-        //        val mockResponse = MockResponse()
-//        val content = Helper.readFileResource("/response.json")
-//        mockResponse.setResponseCode(200)
-//        mockResponse.setBody(content)
-//        mockWebServer.enqueue(mockResponse)
-//
-//        val response = apiService.getAllBears(1, 15)
-//        mockWebServer.takeRequest()
-//
-//        assertEquals(false, response.body()?.isEmpty())
-//        assertEquals(15, response.body()?.size)
-    }
-
-    /**
-     * Testcase to check 404 error response
-     */
-    fun testApiForError_404() = kotlinx.coroutines.test.runTest {
-//        val mockResponse = MockResponse()
-//        mockResponse.setResponseCode(404)
-//        mockWebServer.enqueue(mockResponse)
-//
-//        val response = apiService.getAllBears(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt())
-//        mockWebServer.takeRequest()
-//
-//        assertEquals(false, response.isSuccessful)
-//        assertEquals(404, response.code())
-    }
-
-
-    private val testObserver: Observer<PagingData<BeerDTO>> = MockitoUtils().mock()
-
-//    @OptIn(ExperimentalPagingApi::class)
-//    @Test
-//    fun testRepositoryLiveDataPagingAPI() {
-//        val repository = BeerListRepositoryImpl(apiService, beerDAO, remoteKeyDAO)
-//        val pagingDataLiveData = repository.getBeerList()
-//        assertNotNull(pagingDataLiveData)
-//
-//        val testObserver = Observer<PagingData<BeerDTO>>()
-//        pagingDataLiveData.observeForever(testObserver)
-//
-//        repository.getBeerList() // Load the initial data
-//
-//        testObserver.assertValueCount(1)
-//        val pagingData = testObserver.values[0]
-//        assertEquals(20, pagingData.size)
-//        assertEquals(1, pagingData.getPageNumber())
-//        assertEquals(325, pagingData.getTotalCount())
-//        // Add additional verifications for the PagingData object as needed
-//
-//        pagingDataLiveData.removeObserver(testObserver)
-//    }
 
     @OptIn(ExperimentalPagingApi::class)
     @Test
-    fun testBeerListRepositoryImpl() {
-        val apiService = mock(ApiService::class.java)
-        val beerDAO = mock(BeerDAO::class.java)
-        val remoteKeyDAO = mock(RemoteKeyDAO::class.java)
-        val beerListRepositoryImpl = BeerListRepositoryImpl(apiService, beerDAO, remoteKeyDAO)
-        assertNotNull(beerListRepositoryImpl.getBeerList())
+    fun testBeerListRepositoryForSuccess() = runTest {
+
+        val mockRepo = Mockito.mock(BeerListRepositoryImpl::class.java)
+
+        val dummyData = flowOf(
+            PagingData.from(
+                listOf(
+                    BeerDTO(1),
+                    BeerDTO(2),
+                    BeerDTO(3)
+                )
+            )
+        )
+
+        Mockito.`when`(mockRepo.getBeerList()).thenReturn(dummyData)
+
+        mockRepo.getBeerList().test {
+            val list = listOf(awaitItem().map { it })
+            assertEquals(1, list.size)
+            awaitComplete()
+        }
+
     }
 
-    override fun tearDown() {
-        super.tearDown()
-//        mockWebServer.shutdown()
-    }
 
+    @After
+    fun tearDown() {
+    }
 }

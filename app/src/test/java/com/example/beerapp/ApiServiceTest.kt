@@ -2,6 +2,7 @@ package com.example.beerapp
 
 import com.example.beerapp.data.remote.ApiService
 import junit.framework.TestCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -9,6 +10,7 @@ import org.mockito.ArgumentMatchers.anyInt
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@ExperimentalCoroutinesApi
 class ApiServiceTest : TestCase() {
 
     private lateinit var mockWebServer: MockWebServer

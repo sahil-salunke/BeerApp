@@ -1,4 +1,4 @@
-package com.example.beerapp.hilt
+package com.example.beerapp.di
 
 import android.content.Context
 import androidx.paging.ExperimentalPagingApi

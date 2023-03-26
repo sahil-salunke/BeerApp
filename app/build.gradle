@@ -66,6 +66,21 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+//        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/AL2.0'
+        exclude("META-INF/*.kotlin_module")
     }
 
 }
@@ -79,21 +94,27 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
 
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    debugImplementation 'androidx.fragment:fragment-testing:1.5.6'
 
     androidTestImplementation 'androidx.arch.core:core-testing:2.2.0'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
 
-    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     testImplementation 'org.mockito:mockito-core:4.0.0'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
     testImplementation 'org.mockito:mockito-inline:2.13.0'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.9.3'
+
+//    androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
+//    androidTestUtil 'androidx.test:orchestrator:1.4.2'
+    testImplementation 'app.cash.turbine:turbine:0.12.1'
+
 
     // hilt for dependency injection
     implementation "com.google.dagger:hilt-android:2.44"
@@ -108,17 +129,15 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit-mock:2.2.0'
 
 
-    // room DB
-    def room_version = "2.5.0"
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-runtime:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.1"
+    kapt "androidx.room:room-compiler:2.5.1"
     // To use paging service
-    implementation "androidx.room:room-paging:$room_version"
+    implementation "androidx.room:room-paging:2.5.1"
+    testImplementation "android.arch.persistence.room:testing:1.1.1"
 
     //Paging
-    def paging_version = "3.1.1"
-    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-runtime:3.1.1"
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'

@@ -1,53 +1,72 @@
 package com.example.beerapp.db
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.paging.LimitOffsetDataSource
 import com.example.beerapp.data.model.BeerDTO
 import com.example.beerapp.data.room.BeerDAO
 import com.example.beerapp.data.room.BeerDatabase
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import junit.framework.TestCase
+import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnitRunner
 
-@HiltAndroidTest
-class BeerDaoTest : TestCase() {
+@ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class)
+class BeerDaoTest {
 
     @get:Rule
     private val instantExecutorRule = InstantTaskExecutorRule()
 
-    @get:Rule
-    private val hiltAndroidRule = HiltAndroidRule(this)
+//    @OptIn(ExperimentalCoroutinesApi::class)
+//    @get:Rule
+//    var mainCoroutineRule = MainCoroutineRule()
 
-    @Inject
     private lateinit var beerDatabase: BeerDatabase
 
     private lateinit var beerDAO: BeerDAO
 
-    override fun setUp() {
-        super.setUp()
-        hiltAndroidRule.inject()
+    @Mock
+    private lateinit var context: Context
+
+    private val testDispatcher = StandardTestDispatcher()
+
+    @Before
+    fun setUp() {
+        Dispatchers.setMain(testDispatcher)
+        beerDatabase = BeerDatabase.getInstance(context)
         beerDAO = beerDatabase.getBeerDAO()
     }
 
     @Test
-    fun insertDataInDB() = runTest {
+    fun testInsertDataInDB() = runBlocking {
         val beer = BeerDTO(
             1, "Buzz", image_url = "https://images.punkapi.com/v2/keg.png",
             abv = 4.5
         )
         beerDAO.insert(listOf(beer))
 
+
         val result = (beerDAO.getAllBeers() as LimitOffsetDataSource<BeerDTO>).loadRange(0, 1)
         assertFalse(result.isEmpty())
-        assertEquals(1, result.size)
+        assertEquals(1, result.toList().size)
     }
 
     @Test
-    fun deleteDataInDB() = runTest {
+    fun testDeleteDataFromDB() = runTest {
         val beer = BeerDTO(
             1, "Buzz", image_url = "https://images.punkapi.com/v2/keg.png",
             abv = 4.5
@@ -59,8 +78,9 @@ class BeerDaoTest : TestCase() {
         assertTrue(result.isEmpty())
     }
 
-    override fun tearDown() {
-        super.tearDown()
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
         beerDatabase.clearAllTables()
         beerDatabase.close()
     }

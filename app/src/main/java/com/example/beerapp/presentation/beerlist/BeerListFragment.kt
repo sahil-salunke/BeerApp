@@ -6,12 +6,16 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.beerapp.R
 import com.example.beerapp.databinding.FragmentBeerListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BeerListFragment : Fragment() {
@@ -46,8 +50,10 @@ class BeerListFragment : Fragment() {
             adapter = beerAdapter
         }
 
-        viewModel.result.observe(viewLifecycleOwner) {
-            beerAdapter.submitData(lifecycle, it)
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.result.collectLatest {
+                beerAdapter.submitData(lifecycle, it)
+            }
         }
 
         adapterEvents()

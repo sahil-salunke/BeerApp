@@ -1,11 +1,11 @@
 package com.example.beerapp.domain.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.example.beerapp.data.model.BeerDTO
+import kotlinx.coroutines.flow.Flow
 
 interface BeerListRepository {
 
-    fun getBeerList(): LiveData<PagingData<BeerDTO>>
+    fun getBeerList(): Flow<PagingData<BeerDTO>>
 
 }

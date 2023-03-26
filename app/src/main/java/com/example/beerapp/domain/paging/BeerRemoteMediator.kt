@@ -1,4 +1,4 @@
-package com.example.beerapp.paging
+package com.example.beerapp.domain.paging
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType

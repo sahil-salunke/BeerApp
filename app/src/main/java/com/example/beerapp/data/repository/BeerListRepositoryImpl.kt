@@ -3,7 +3,7 @@ package com.example.beerapp.data.repository
 import androidx.paging.*
 import com.example.beerapp.data.remote.ApiService
 import com.example.beerapp.domain.repository.BeerListRepository
-import com.example.beerapp.paging.BeerRemoteMediator
+import com.example.beerapp.domain.paging.BeerRemoteMediator
 import com.example.beerapp.data.room.BeerDAO
 import com.example.beerapp.data.room.RemoteKeyDAO
 import com.example.beerapp.utils.Constants.PER_PAGE
@@ -22,6 +22,6 @@ class BeerListRepositoryImpl(
         ),
         remoteMediator = BeerRemoteMediator(remoteKeyDAO, beerDAO, apiService),
         pagingSourceFactory = { beerDAO.getAllBeers() }
-    ).liveData
+    ).flow
 
 }
