@@ -33,6 +33,122 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180926828444:android:dc1544771514fb18c68259",
+        "android_client_info": {
+          "package_name": "com.example.beerapp.complimentary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180926828444-l96nsp59t1f98biivvegkdou7s9j0vs9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoFbGdNH9hpSfWwIpQIV2NRRLwzTl6rnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180926828444-l96nsp59t1f98biivvegkdou7s9j0vs9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180926828444:android:bb8f7572100f518cc68259",
+        "android_client_info": {
+          "package_name": "com.example.beerapp.onhome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180926828444-l96nsp59t1f98biivvegkdou7s9j0vs9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoFbGdNH9hpSfWwIpQIV2NRRLwzTl6rnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180926828444-l96nsp59t1f98biivvegkdou7s9j0vs9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180926828444:android:2b3fd42af457961dc68259",
+        "android_client_info": {
+          "package_name": "com.example.beerapp.onhouse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180926828444-l96nsp59t1f98biivvegkdou7s9j0vs9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoFbGdNH9hpSfWwIpQIV2NRRLwzTl6rnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180926828444-l96nsp59t1f98biivvegkdou7s9j0vs9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180926828444:android:09802ffeef666da2c68259",
+        "android_client_info": {
+          "package_name": "com.example.beerapp.paid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180926828444-l96nsp59t1f98biivvegkdou7s9j0vs9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoFbGdNH9hpSfWwIpQIV2NRRLwzTl6rnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180926828444-l96nsp59t1f98biivvegkdou7s9j0vs9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

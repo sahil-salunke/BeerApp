@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
             type="com.example.beerapp.presentation.beerlist.BeerListViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.example.beerapp.presentation.beerlist.BeerPagingAdapter" />
 
     </data>
 
@@ -18,17 +23,12 @@
             android:id="@+id/beerList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:visibility="@{viewModel.isDataAvailable}" />
+            android:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <include
             android:id="@+id/errorView"
             layout="@layout/include_error"
-            app:viewModel="@{viewModel}" />
-
-        <include
-            android:id="@+id/loaderView"
-            layout="@layout/include_progress"
             app:viewModel="@{viewModel}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

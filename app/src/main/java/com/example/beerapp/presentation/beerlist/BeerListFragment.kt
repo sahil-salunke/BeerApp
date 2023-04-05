@@ -3,7 +3,6 @@ package com.example.beerapp.presentation.beerlist
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,10 +11,10 @@ import com.example.beerapp.databinding.FragmentBeerListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.Dispatchers
+import com.example.beerapp.presentation.MainActivity
+import com.example.beerapp.utils.Constants.hideView
+import com.example.beerapp.utils.Constants.showView
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BeerListFragment : Fragment() {
@@ -26,41 +25,37 @@ class BeerListFragment : Fragment() {
 
     private lateinit var binding: FragmentBeerListBinding
 
+    private lateinit var mainActivity: MainActivity
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.title = getString(R.string.txt_beer_list)
+        mainActivity = (activity as MainActivity)
+        viewModel.getBeersData()
+    }
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentBeerListBinding.inflate(inflater, container, false)
-        activity?.title = getString(R.string.txt_beer_list)
+        beerAdapter = BeerPagingAdapter()
         binding.viewModel = viewModel
+        binding.adapter = beerAdapter
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        beerAdapter = BeerPagingAdapter()
-
-        viewModel.isDataAvailable.set(true)
-
-        binding.beerList.apply {
-            layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
-            adapter = beerAdapter
-        }
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.result.collectLatest {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.resultList.collectLatest {
                 beerAdapter.submitData(lifecycle, it)
             }
         }
 
         adapterEvents()
 
-        viewModel.reloadClick.observe(viewLifecycleOwner) {
-            beerAdapter.refresh()
-        }
+        viewModel.reloadClick.observe(viewLifecycleOwner) { beerAdapter.refresh() }
 
     }
 
@@ -73,13 +68,11 @@ class BeerListFragment : Fragment() {
         }
 
         beerAdapter.addLoadStateListener { loadState ->
-
-            viewModel.isError.set(false)
+            hideErrorView()
             if (loadState.refresh is LoadState.Loading) {
-                viewModel.isLoading.set(true)
+                mainActivity.showProgress()
             } else {
-                // getting the error
-                viewModel.isLoading.set(false)
+                mainActivity.hideProgress()
                 val error = when {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
                     loadState.append is LoadState.Error -> loadState.append as LoadState.Error
@@ -88,13 +81,22 @@ class BeerListFragment : Fragment() {
                 }
 
                 if (beerAdapter.itemCount == 0) {
-                    viewModel.isError.set(true)
-                    viewModel.errorMessage.value = getString(R.string.txt_no_data)
+                    showErrorView(getString(R.string.txt_no_data))
                 } else {
-                    Log.d("Error ", "${error?.error?.message}")
+                    Log.e("ERROR ", "${error?.error?.localizedMessage}")
                 }
             }
         }
     }
 
+    private fun showErrorView(error: String) {
+        binding.errorView.message.text = error
+        binding.errorView.message.showView()
+        binding.errorView.reload.showView()
+    }
+
+    private fun hideErrorView() {
+        binding.errorView.message.hideView()
+        binding.errorView.reload.hideView()
+    }
 }

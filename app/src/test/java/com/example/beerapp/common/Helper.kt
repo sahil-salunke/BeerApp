@@ -1,4 +1,4 @@
-package com.example.beerapp
+package com.example.beerapp.common
 
 import java.io.InputStreamReader
 import java.lang.StringBuilder

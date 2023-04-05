@@ -9,7 +9,6 @@ import com.example.beerapp.data.model.RemoteKey
 import com.example.beerapp.data.remote.ApiService
 import com.example.beerapp.data.room.BeerDAO
 import com.example.beerapp.data.room.RemoteKeyDAO
-import com.example.beerapp.utils.Constants.PER_PAGE
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -48,8 +47,8 @@ class BeerRemoteMediator(
                 }
             }
 
-            val response = apiService.getAllBears(loadKey, PER_PAGE)
-            val endOfPagination = response.body()?.size!! < PER_PAGE
+            val response = apiService.getAllBears(loadKey, state.config.pageSize)
+            val endOfPagination = response.body()?.size!! < state.config.pageSize
 
             if (loadType == LoadType.REFRESH) {
                 beerDAO.deleteBeers()
@@ -58,11 +57,6 @@ class BeerRemoteMediator(
 
             val prev = if (loadKey == 1) null else loadKey - 1
             val next = if (endOfPagination) null else loadKey + 1
-
-            if (loadType == LoadType.REFRESH) {
-                beerDAO.deleteBeers()
-                remoteKeyDAO.deleteAllRemoteKeys()
-            }
 
             beerDAO.insert(response.body()!!)
             val keys = response.body()?.map { quote ->
@@ -93,9 +87,7 @@ class BeerRemoteMediator(
         }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, BeerDTO>
-    ): RemoteKey? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, BeerDTO>): RemoteKey? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { beer ->
                 remoteKeyDAO.getRemoteKeys(id = beer.id)
@@ -106,8 +98,8 @@ class BeerRemoteMediator(
         state: PagingState<Int, BeerDTO>
     ): RemoteKey? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { quote ->
-                remoteKeyDAO.getRemoteKeys(id = quote.id)
+            ?.let { beer ->
+                remoteKeyDAO.getRemoteKeys(id = beer.id)
             }
     }
 

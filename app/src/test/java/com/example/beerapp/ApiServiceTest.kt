@@ -1,5 +1,6 @@
 package com.example.beerapp
 
+import com.example.beerapp.common.Helper
 import com.example.beerapp.data.remote.ApiService
 import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -49,7 +50,7 @@ class ApiServiceTest : TestCase() {
         mockResponse.setBody(content)
         mockWebServer.enqueue(mockResponse)
 
-        val response = apiService.getAllBears(1, 15)
+        val response = apiService.getAllBears(anyInt(), anyInt())
         mockWebServer.takeRequest()
 
         assertEquals(false, response.body()?.isEmpty())

@@ -2,10 +2,12 @@ package com.example.beerapp.data.model
 
 import android.os.Parcelable
 import androidx.room.*
+import com.google.errorprone.annotations.Keep
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = "Beers")
+@Keep
 data class BeerDTO(
     @PrimaryKey
     val id: Long,
@@ -36,6 +38,7 @@ data class BeerDTO(
 ) : Parcelable
 
 @Parcelize
+@Keep
 data class BoilVolume(
     val value: Double?,
     val unit: String?
@@ -43,6 +46,7 @@ data class BoilVolume(
 
 
 @Parcelize
+@Keep
 data class Ingredients(
     val malt: List<Malt>?,
     val hops: List<Hop>?,
@@ -50,6 +54,7 @@ data class Ingredients(
 ) : Parcelable
 
 @Parcelize
+@Keep
 data class Hop(
     val name: String?,
     @Embedded(prefix = "hop_")
@@ -59,6 +64,7 @@ data class Hop(
 ) : Parcelable
 
 @Parcelize
+@Keep
 data class Malt(
     val name: String?,
     @Embedded(prefix = "malt_")
@@ -66,6 +72,7 @@ data class Malt(
 ) : Parcelable
 
 @Parcelize
+@Keep
 data class Method(
     val mash_temp: List<MashTemp>?,
     @Embedded
@@ -74,12 +81,14 @@ data class Method(
 ) : Parcelable
 
 @Parcelize
+@Keep
 data class Fermentation(
     @Embedded(prefix = "fermentation_")
     val temp: BoilVolume?
 ) : Parcelable
 
 @Parcelize
+@Keep
 data class MashTemp(
     @Embedded(prefix = "mash_temp_")
     val temp: BoilVolume?,

@@ -1,0 +1,49 @@
+apply plugin: 'jacoco'
+
+android {
+    testCoverageEnabled true
+
+    jacoco {
+        toolVersion = "0.8.7"
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+            androidTestCoverageEnabled true
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+
+    testOptions {
+        unitTests {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDir = file("$buildDir/reports")
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        csv.enabled = false
+    }
+
+    classDirectories.setFrom(fileTree("$buildDir/intermediates/javac/debug").include("**/*.class"))
+
+    sourceDirectories.setFrom(files("$projectDir/app/src/main/java"))
+    executionData.setFrom(fileTree(dir: "$buildDir", include: '**/jacoco/*.exec'))
+
+    doLast {
+        println "Code coverage report generated: file:///${project.buildDir}/reports/jacocoTestReport/html/index.html"
+    }
+}
